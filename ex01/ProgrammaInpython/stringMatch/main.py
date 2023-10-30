@@ -36,6 +36,24 @@ def applicazioneAlgoritmi(testo, pattern):
 
     return t_ingenuo, t_kmp
 
+def risultatiTempi(tempi1, tempi2):
+    t1, t2, t3 = 0, 0, 0
+    for i in range(len(tempi1)):
+        t1 += tempi1[i]
+        t2 += tempi2[i]
+
+    print('\nMediamente...')
+    t_max = max(t1, t2)
+    if t_max == t1:
+        print('Ingenuo ci mette più tempo!')
+    elif t_max == t2:
+        print('Kmp ci mette più tempo!')
+
+    t_min = min(t1, t2)
+    if t_min == t1:
+        print('Ingenuo ci mette meno tempo!')
+    elif t_min == t2:
+        print('Kmp ci mette meno tempo!')
 
 def stampaFigure(titolo, x_lab, y_lab, x, ingenuo, kmp1):
     figura = plt.figure()
@@ -73,6 +91,8 @@ def test(num_test, iterazioni, lunghezza_testo, lunghezza_pattern):
                 print("\nTest numero:", i + 1, '\nLunghezza inserita:', testo_inseriti)
             if j % iterazioni == 0:
                 print("----------------------------------------------")
+
+            risultatiTempi(t_ingenuo, t_ingenuo)
 
     first_fig = stampaFigure('Tempi Algorithm', 'String Lunghezza', 'Tempo', x,
                              t_ingenuo, t_kmp)
