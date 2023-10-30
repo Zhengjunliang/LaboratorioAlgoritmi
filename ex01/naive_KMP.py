@@ -1,11 +1,6 @@
-def naive(text, pattern):
-    """Naive string search algorithm.
+def ingenuo(testo, pattern):
 
-    :param text: The input text.
-    :param pattern: The pattern to search for.
-    :return: A generator yielding the starting positions of pattern in text.
-    """
-    n = len(text)
+    n = len(testo)
     m = len(pattern)
 
     if m > n:
@@ -14,7 +9,7 @@ def naive(text, pattern):
     for i in range(n - m + 1):
         match = True
         for j in range(m):
-            if text[i + j] != pattern[j]:
+            if testo[i + j] != pattern[j]:
                 match = False
                 break
 
@@ -22,51 +17,43 @@ def naive(text, pattern):
             yield i
 
 
-def calculate_prefix(pattern):
-    """Calculate the prefix function for the KMP algorithm.
+def calcolare_prefisso(pattern):
 
-    :param pattern: The pattern.
-    :return: A list containing the length of the longest prefix of pattern[i].
-    """
     m = len(pattern)
-    prefix = [0] * m
-    length = 0
+    prefisso = [0] * m
+    lunghezza = 0
 
     for i in range(1, m):
-        while length > 0 and pattern[length] != pattern[i]:
-            length = prefix[length - 1]
+        while lunghezza > 0 and pattern[lunghezza] != pattern[i]:
+            lunghezza = prefisso[lunghezza - 1]
 
-        if pattern[length] == pattern[i]:
-            length += 1
+        if pattern[lunghezza] == pattern[i]:
+            lunghezza += 1
 
-        prefix[i] = length
+        prefisso[i] = lunghezza
 
-    return prefix
+    return prefisso
 
 
-def kmp(text, pattern):
-    """Knuth-Morris-Pratt (KMP) string search algorithm.
+def kmp(testo, pattern):
 
-    :param text: The input text.
-    :param pattern: The pattern to search for.
-    :return: A generator yielding the starting positions of pattern in text.
-    """
-    n = len(text)
+    n = len(testo)
     m = len(pattern)
 
     if m > n:
         yield -1
 
-    prefix_values = calculate_prefix(pattern)
+    prefisso = calcolare_prefisso(pattern)
     j = 0
 
     for i in range(n):
-        while j > 0 and pattern[j] != text[i]:
-            j = prefix_values[j - 1]
+        while j > 0 and pattern[j] != testo[i]:
+            j = prefisso[j - 1]
 
-        if pattern[j] == text[i]:
+        if pattern[j] == testo[i]:
             j += 1
 
         if j == m:
             yield i - m + 1
-            j = prefix_values[j - 1]
+            j = prefisso[j - 1]
+
